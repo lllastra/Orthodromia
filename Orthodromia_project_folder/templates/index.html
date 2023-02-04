@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>open layers map</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'styles.css' %}">
+    <link rel="stylesheet" href="{%static 'libs/v6.4.3-dist/ol.css' %}">
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+
+    <script src="{%static 'libs/v6.4.3-dist/ol.js' %}"></script></head>
+<body>
+    <div class="grid-container">
+        
+        <div class="grid1">
+            <div class="sidebar">
+                <h2>Введите координаты точек в формате WKT</h2>
+                <div>
+                    <form action="" method="post">{% csrf_token %}
+                        {{form.as_p}}
+                        {{form1.as_p}}
+                        <div> 
+                            <button type="submit">отправить</button>
+                        </div>
+                    </form>
+
+                    <label for="ResultLine">Результат запроса</label>
+                    <p>{{Line}}</p><br></br>
+                    <p>{{form1.cleaned_data}}</p><br></br>
+                    <style>
+                        p {
+                         border: 1px solid black;
+                         padding: 10px;s
+                        }
+                       </style>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="grid2">
+            <div id="jsmap" class="map"></div>        
+        </div>
+        <div class="grid3">
+            
+        </div>
+    </div>
+
+   
+    
+    {% load static %}
+    <script src="{%static 'main.js' %}"></script>
+    <script src="{%static 'libs/v6.4.3-dist/ol.js' %}"></script>
+
+    
+
+    <script>
+        var styles = {
+            'MultiLineString': new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                  color: 'green',
+                  width: 4
+                })
+            })
+          };
+
+          var geojsonObject = {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'MultiLineString',
+              'coordinates': [{{List_of_coordinates_of_final_points}}]
+            }
+          
+          }
+
+
+    </script>
+    
+</body>
+</html>
